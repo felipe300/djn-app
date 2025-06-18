@@ -1,37 +1,40 @@
 pipeline {
 	agent any
+  tools {
+    nodejs 'NodeJS'
+  }
 	stages {
 		stage('Checkout GitHub'){
 			steps {
-        echo "GitHub"
+        git branch: 'main', credentialsId: 'github-credential', url: 'https://github.com/felipe300/djn-app.git'
 			}
 		}		
 		stage('Install node dependencies'){
 			steps {
-        echo "Install node dependencies"
+        sh 'npm install'
 			}
 		}
 		stage('Test Code'){
 			steps {
-        echo "Test Code"
+        sh 'npm test'
 			}
 		}
 		stage('Build Docker Image'){
 			steps {
 				script {
-          echo "Build Docker Image"
+          echo 'Build Docker Image'
 				}
 			}
 		}
 		stage('Trivy Scan'){
 			steps {
-        echo "Trivy"
+        echo 'Trivy'
 			}
 		}
 		stage('Push Image to DockerHub'){
 			steps {
 				script {
-            echo "Push image"
+            echo 'Push image'
 					}
 				}
 			}
